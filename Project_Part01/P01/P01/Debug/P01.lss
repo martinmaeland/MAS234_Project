@@ -3,27 +3,29 @@ P01.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .data         00000000  00800100  00800100  000000de  2**0
+  0 .data         00000000  00800100  00800100  000001a0  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  1 .text         0000008a  00000000  00000000  00000054  2**1
+  1 .text         0000014c  00000000  00000000  00000054  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  2 .comment      00000030  00000000  00000000  000000de  2**0
+  2 .comment      00000030  00000000  00000000  000001a0  2**0
                   CONTENTS, READONLY
-  3 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  00000110  2**2
+  3 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  000001d0  2**2
                   CONTENTS, READONLY
-  4 .debug_aranges 00000020  00000000  00000000  0000014c  2**0
+  4 .debug_aranges 00000028  00000000  00000000  0000020c  2**0
                   CONTENTS, READONLY, DEBUGGING
-  5 .debug_info   00000670  00000000  00000000  0000016c  2**0
+  5 .debug_info   00000834  00000000  00000000  00000234  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_abbrev 000005e9  00000000  00000000  000007dc  2**0
+  6 .debug_abbrev 00000702  00000000  00000000  00000a68  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_line   0000017a  00000000  00000000  00000dc5  2**0
+  7 .debug_line   0000032e  00000000  00000000  0000116a  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_frame  00000024  00000000  00000000  00000f40  2**2
+  8 .debug_frame  00000034  00000000  00000000  00001498  2**2
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_str    00000373  00000000  00000000  00000f64  2**0
+  9 .debug_str    000003df  00000000  00000000  000014cc  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_ranges 00000010  00000000  00000000  000012d7  2**0
+ 10 .debug_loc    0000010b  00000000  00000000  000018ab  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 11 .debug_ranges 00000030  00000000  00000000  000019b6  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -63,26 +65,211 @@ Disassembly of section .text:
   6e:	d4 e0       	ldi	r29, 0x04	; 4
   70:	de bf       	out	0x3e, r29	; 62
   72:	cd bf       	out	0x3d, r28	; 61
-  74:	0e 94 40 00 	call	0x80	; 0x80 <main>
-  78:	0c 94 43 00 	jmp	0x86	; 0x86 <_exit>
+  74:	0e 94 51 00 	call	0xa2	; 0xa2 <main>
+  78:	0c 94 a4 00 	jmp	0x148	; 0x148 <_exit>
 
 0000007c <__bad_interrupt>:
   7c:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
 
-00000080 <main>:
+00000080 <_Z5sleepi>:
+#include <util/delay.h>
+
+void sleep(int t)
+{
+	int c = 0;
+	while(c < t)
+  80:	18 16       	cp	r1, r24
+  82:	19 06       	cpc	r1, r25
+  84:	6c f4       	brge	.+26     	; 0xa0 <_Z5sleepi+0x20>
+  86:	20 e0       	ldi	r18, 0x00	; 0
+  88:	30 e0       	ldi	r19, 0x00	; 0
+	#else
+		//round up by default
+		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
+	#endif
+
+	__builtin_avr_delay_cycles(__ticks_dc);
+  8a:	e9 ef       	ldi	r30, 0xF9	; 249
+  8c:	f0 e0       	ldi	r31, 0x00	; 0
+  8e:	31 97       	sbiw	r30, 0x01	; 1
+  90:	f1 f7       	brne	.-4      	; 0x8e <_Z5sleepi+0xe>
+  92:	00 c0       	rjmp	.+0      	; 0x94 <_Z5sleepi+0x14>
+  94:	00 00       	nop
+	{
+		_delay_ms(1);
+		c++;
+  96:	2f 5f       	subi	r18, 0xFF	; 255
+  98:	3f 4f       	sbci	r19, 0xFF	; 255
+#include <util/delay.h>
+
+void sleep(int t)
+{
+	int c = 0;
+	while(c < t)
+  9a:	82 17       	cp	r24, r18
+  9c:	93 07       	cpc	r25, r19
+  9e:	a9 f7       	brne	.-22     	; 0x8a <_Z5sleepi+0xa>
+  a0:	08 95       	ret
+
+000000a2 <main>:
 
 
 int main(void)
 {
 	
-	DDRB |= (1<<PB5);
-  80:	25 9a       	sbi	0x04, 5	; 4
-	PORTB |= (1<<PB5);
-  82:	2d 9a       	sbi	0x05, 5	; 5
-  84:	ff cf       	rjmp	.-2      	; 0x84 <main+0x4>
+	DDRC |= 1 << PC5;
+  a2:	3d 9a       	sbi	0x07, 5	; 7
+	PORTC = 0x00;
+  a4:	18 b8       	out	0x08, r1	; 8
+		for (int i=1; i<pulseWidth; i++)
+		{
+			for (int j=1; j<delay; j++)
+			{
+				sleep(1);
+				PORTC ^= (1 << PC5);
+  a6:	68 94       	set
+  a8:	bb 24       	eor	r11, r11
+  aa:	b5 f8       	bld	r11, 5
+				sleep(i);
+				PORTC ^= (1 << PC5);
+				sleep(pulseWidth-i);
+  ac:	0f 2e       	mov	r0, r31
+  ae:	f5 e0       	ldi	r31, 0x05	; 5
+  b0:	ef 2e       	mov	r14, r31
+  b2:	f1 2c       	mov	r15, r1
+  b4:	f0 2d       	mov	r31, r0
+	//PORTD &= ~(1 << PD0);
+    
+    while (1) 
+    {
+		
+		for (int i=1; i<pulseWidth; i++)
+  b6:	c1 e0       	ldi	r28, 0x01	; 1
+  b8:	d0 e0       	ldi	r29, 0x00	; 0
+  ba:	cc 24       	eor	r12, r12
+  bc:	c3 94       	inc	r12
+  be:	d1 2c       	mov	r13, r1
+			{
+				sleep(1);
+				PORTC ^= (1 << PC5);
+				sleep(i);
+				PORTC ^= (1 << PC5);
+				sleep(pulseWidth-i);
+  c0:	87 01       	movw	r16, r14
+  c2:	0c 1b       	sub	r16, r28
+  c4:	1d 0b       	sbc	r17, r29
+		
+		for (int i=1; i<pulseWidth; i++)
+		{
+			for (int j=1; j<delay; j++)
+			{
+				sleep(1);
+  c6:	81 e0       	ldi	r24, 0x01	; 1
+  c8:	90 e0       	ldi	r25, 0x00	; 0
+  ca:	0e 94 40 00 	call	0x80	; 0x80 <_Z5sleepi>
+				PORTC ^= (1 << PC5);
+  ce:	88 b1       	in	r24, 0x08	; 8
+  d0:	8b 25       	eor	r24, r11
+  d2:	88 b9       	out	0x08, r24	; 8
+				sleep(i);
+  d4:	ce 01       	movw	r24, r28
+  d6:	0e 94 40 00 	call	0x80	; 0x80 <_Z5sleepi>
+				PORTC ^= (1 << PC5);
+  da:	88 b1       	in	r24, 0x08	; 8
+  dc:	8b 25       	eor	r24, r11
+  de:	88 b9       	out	0x08, r24	; 8
+				sleep(pulseWidth-i);
+  e0:	c8 01       	movw	r24, r16
+  e2:	0e 94 40 00 	call	0x80	; 0x80 <_Z5sleepi>
+    while (1) 
+    {
+		
+		for (int i=1; i<pulseWidth; i++)
+		{
+			for (int j=1; j<delay; j++)
+  e6:	8f ef       	ldi	r24, 0xFF	; 255
+  e8:	c8 1a       	sub	r12, r24
+  ea:	d8 0a       	sbc	r13, r24
+  ec:	84 e1       	ldi	r24, 0x14	; 20
+  ee:	c8 16       	cp	r12, r24
+  f0:	d1 04       	cpc	r13, r1
+  f2:	49 f7       	brne	.-46     	; 0xc6 <main+0x24>
+	//PORTD &= ~(1 << PD0);
+    
+    while (1) 
+    {
+		
+		for (int i=1; i<pulseWidth; i++)
+  f4:	21 96       	adiw	r28, 0x01	; 1
+  f6:	c5 30       	cpi	r28, 0x05	; 5
+  f8:	d1 05       	cpc	r29, r1
+  fa:	f9 f6       	brne	.-66     	; 0xba <main+0x18>
+  fc:	05 e0       	ldi	r16, 0x05	; 5
+  fe:	10 e0       	ldi	r17, 0x00	; 0
+ 100:	90 2e       	mov	r9, r16
+ 102:	a1 2e       	mov	r10, r17
+ 104:	cc 24       	eor	r12, r12
+ 106:	c3 94       	inc	r12
+ 108:	d1 2c       	mov	r13, r1
+			{
+				sleep(1);
+				PORTC ^= (1 << PC5);
+				sleep(i);
+				PORTC ^= (1 << PC5);
+				sleep(pulseWidth-i);
+ 10a:	e7 01       	movw	r28, r14
+ 10c:	c0 1b       	sub	r28, r16
+ 10e:	d1 0b       	sbc	r29, r17
+		
+		for (int i=pulseWidth; i>0; i--)
+		{
+			for (int j=1; j<delay; j++)
+			{
+				sleep(1);
+ 110:	81 e0       	ldi	r24, 0x01	; 1
+ 112:	90 e0       	ldi	r25, 0x00	; 0
+ 114:	0e 94 40 00 	call	0x80	; 0x80 <_Z5sleepi>
+				PORTC ^= (1 << PC5);
+ 118:	88 b1       	in	r24, 0x08	; 8
+ 11a:	8b 25       	eor	r24, r11
+ 11c:	88 b9       	out	0x08, r24	; 8
+				sleep(i);
+ 11e:	89 2d       	mov	r24, r9
+ 120:	9a 2d       	mov	r25, r10
+ 122:	0e 94 40 00 	call	0x80	; 0x80 <_Z5sleepi>
+				PORTC ^= (1 << PC5);
+ 126:	88 b1       	in	r24, 0x08	; 8
+ 128:	8b 25       	eor	r24, r11
+ 12a:	88 b9       	out	0x08, r24	; 8
+				sleep(pulseWidth-i);
+ 12c:	ce 01       	movw	r24, r28
+ 12e:	0e 94 40 00 	call	0x80	; 0x80 <_Z5sleepi>
+			}
+		}
+		
+		for (int i=pulseWidth; i>0; i--)
+		{
+			for (int j=1; j<delay; j++)
+ 132:	8f ef       	ldi	r24, 0xFF	; 255
+ 134:	c8 1a       	sub	r12, r24
+ 136:	d8 0a       	sbc	r13, r24
+ 138:	84 e1       	ldi	r24, 0x14	; 20
+ 13a:	c8 16       	cp	r12, r24
+ 13c:	d1 04       	cpc	r13, r1
+ 13e:	41 f7       	brne	.-48     	; 0x110 <main+0x6e>
+ 140:	01 50       	subi	r16, 0x01	; 1
+ 142:	11 09       	sbc	r17, r1
+				PORTC ^= (1 << PC5);
+				sleep(pulseWidth-i);
+			}
+		}
+		
+		for (int i=pulseWidth; i>0; i--)
+ 144:	e9 f6       	brne	.-70     	; 0x100 <main+0x5e>
+ 146:	b7 cf       	rjmp	.-146    	; 0xb6 <main+0x14>
 
-00000086 <_exit>:
-  86:	f8 94       	cli
+00000148 <_exit>:
+ 148:	f8 94       	cli
 
-00000088 <__stop_program>:
-  88:	ff cf       	rjmp	.-2      	; 0x88 <__stop_program>
+0000014a <__stop_program>:
+ 14a:	ff cf       	rjmp	.-2      	; 0x14a <__stop_program>
