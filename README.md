@@ -15,7 +15,7 @@ The project in this course is put together by three parts. In each part our grou
 - Using features as interrupt and the built-in adc.
 
 <p align="center" float="left">
-<img src="https://github.com/martinmaeland/MAS234_Project/blob/master/media/part01/Oscilloscope.jpg" alt="" width="300">
+<img src="https://raw.githubusercontent.com/martinmaeland/MAS234_Project/master/media/part01/Battertilkobling.jpg" alt="" width="300">
 <img src="https://github.com/martinmaeland/MAS234_Project/blob/master/media/part01/task5.png" alt="" width="300">
  </p>
 
