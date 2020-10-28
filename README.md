@@ -5,7 +5,7 @@ The project in this course is put together by three parts. In each part our grou
 - Martin D. Hermansen
 - Erlend Birkeland
 - Christoffer Kjeve
-- martinmaeland
+- Martin Maeland
 
 ## Part 01
 **Description:** 
