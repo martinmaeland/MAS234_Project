@@ -1,5 +1,7 @@
 # MAS234_Project
 
 ## Contributors
-MARTIN MAELAND
-MARTIN DAHLSENG HERMANSEN
+Martin Dahlseng Hermansen
+Erlend Birkeland
+Christoffer Kjeve
+Martin Mæland
