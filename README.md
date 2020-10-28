@@ -1,7 +1,10 @@
 # MAS234_Project
 
-## Contributors
-Martin Dahlseng Hermansen
-Erlend Birkeland
-Christoffer Kjeve
-Martin Mæland
+## Part 01
+Description: 
+
+## Part 02
+In progress
+
+## Part 03
+In progress
