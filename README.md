@@ -1,6 +1,10 @@
 # MAS234_Project
 The project in this course is put together by three parts. In each part our group will discover different aspects of integrated circuits, ranging from bottom level circuit design to top level interaction and communication.
 
+## Contributors
+@mdherman
+@martinmaeland
+
 ## Part 01
 **Description:** 
 - Design og build circuit for microcontroller ATmega168. 
