@@ -53,7 +53,8 @@ void setup(){
   display.clearDisplay();
   updateScreen(0, 0, 0);
   
-  Can0.begin(500000); //set speed here. 
+  Can0.begin(250000); //set speed here.
+  Can1.begin(250000);
     
   delay(1000);
   
@@ -77,7 +78,7 @@ void loop() {
 
   updateScreen(i, rxmsg.id, gyroZ());
 
-  while(Can0.read(rxmsg))
+  while(Can1.read(rxmsg))
   { 
      i++;
      String CANStr(""); 
