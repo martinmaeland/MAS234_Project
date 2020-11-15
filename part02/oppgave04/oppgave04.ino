@@ -2,8 +2,8 @@
 
 // Include
 #include <FlexCAN.h>
-#include <SPI.h>
-#include <Wire.h>
+#include <SPI.h> // SPI communication
+#include <Wire.h> // I2C communication
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1306.h>
 #include <Fonts/FreeMono9pt7b.h>
@@ -28,7 +28,7 @@ const int MPU=0x68;
 int16_t AcX,AcY,AcZ,Tmp,GyX,GyY,GyZ;
 
 #if (SSD1306_LCDHEIGHT != 64)
-//#error("Height incorrect, please fix Adafruit_SSD1306.h!");
+  #error("Height incorrect, please fix Adafruit_SSD1306.h!");
 #endif
 
 Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT,
