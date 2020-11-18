@@ -31,7 +31,7 @@ The project in this course is put together by three parts. In each part our grou
 - Sending gyro-data from Teensey 3.6 to RPI.
 
 <p align="center" float="left">
-<img src="https://raw.githubusercontent.com/martinmaeland/MAS234_Project/master/media/part03/rpi_pcan_gyro.jpg" alt="" width="300">
-<img src="https://github.com/martinmaeland/MAS234_Project/blob/master/media/part03/target_architecture.png" alt="" width="300">
+<img src="https://raw.githubusercontent.com/martinmaeland/MAS234_Project/master/media/part03/rpi_pcan_gyro.jpg" alt="" width="550">
+<img src="https://github.com/martinmaeland/MAS234_Project/blob/master/media/part03/target_architecture.png" alt="" width="400">
  </p>
 
