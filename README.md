@@ -24,6 +24,9 @@ The project in this course is put together by three parts. In each part our grou
 - Reciving and sending messages trough CAN on a Teensey 3.6.
 - Using Arduino IDE, PCAN-view and Teensey extension for Arduino IDE.
 
+<img src="https://github.com/martinmaeland/MAS234_Project/blob/master/media/part02/Del2_kretsskjema.png" alt="" width="300">
+<img src="https://github.com/martinmaeland/MAS234_Project/blob/master/media/part02/IMU_m%C3%A5ling.jpg" alt="" width="300">
+
 ## Part 03
 **Description:**
 - Creating an OS with Buildroot to Raspberry Pi 3.
