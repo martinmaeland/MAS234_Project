@@ -20,7 +20,12 @@ The project in this course is put together by three parts. In each part our grou
  </p>
 
 ## Part 02
-In progress
+**Description:**
+- Reciving and sending messages trough CAN on a Teensey 3.6.
+- Using Arduino IDE, PCAN-view and Teensey extension for Arduino IDE.
 
 ## Part 03
-In progress
+**Description:**
+- Creating an OS with Buildroot to Raspberry Pi 3.
+- Using that OS to send and recive CAN-messages between Teensey, PCAN-view and RPI.
+- Sending gyro-data from Teensey 3.6 to RPI.
