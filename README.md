@@ -29,3 +29,9 @@ The project in this course is put together by three parts. In each part our grou
 - Creating an OS with Buildroot to Raspberry Pi 3.
 - Using that OS to send and recive CAN-messages between Teensey, PCAN-view and RPI.
 - Sending gyro-data from Teensey 3.6 to RPI.
+
+<p align="center" float="left">
+<img src="https://raw.githubusercontent.com/martinmaeland/MAS234_Project/master/media/part03/rpi_pcan_gyro.jpg" alt="" width="300">
+<img src="https://github.com/martinmaeland/MAS234_Project/blob/master/media/part03/target_architecture.png" alt="" width="300">
+ </p>
+
