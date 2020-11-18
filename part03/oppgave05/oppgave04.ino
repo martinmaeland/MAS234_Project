@@ -1,4 +1,4 @@
-// Del02, oppgave04a
+// Del03, oppgave05
 
 // Include
 #include <FlexCAN.h>
@@ -24,11 +24,11 @@ int i = 0;
 bool recieve = false;
 
 // Gyro
-const int MPU=0x68; 
+const int MPU=0x68;
 int16_t AcX,AcY,AcZ,Tmp,GyX,GyY,GyZ;
 
 #if (SSD1306_LCDHEIGHT != 64)
-//#error("Height incorrect, please fix Adafruit_SSD1306.h!");
+  #error("Height incorrect, please fix Adafruit_SSD1306.h!");
 #endif
 
 Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT,
@@ -37,27 +37,27 @@ Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT,
 static CAN_message_t msg,rxmsg;
 volatile uint32_t count = 0;
 IntervalTimer TX_timer;
-String CANStr(""); 
+String CANStr("");
 volatile uint32_t can_msg_count = 0;
 
 void setup(){
-  
+
   Wire.begin();
   Wire.beginTransmission(MPU);
-  Wire.write(0x6B); 
-  Wire.write(0);    
+  Wire.write(0x6B);
+  Wire.write(0);
   Wire.endTransmission(true);
   Serial.begin(9600);
 
   display.begin(SSD1306_SWITCHCAPVCC);
   display.clearDisplay();
   updateScreen(0, 0, 0);
-  
+
   Can0.begin(250000); //set speed here.
   Can1.begin(250000);
-    
+
   delay(1000);
-  
+
   msg.buf[0] = 1;
   msg.buf[1] = 2;
   msg.buf[2] = 0;
@@ -67,7 +67,7 @@ void setup(){
   msg.buf[6] = 0;
   msg.len = 8;
   msg.id = 0x7DF;
-  msg.flags.extended = 0; 
+  msg.flags.extended = 0;
   msg.flags.remote = 0;
 //  msg.timeout = 500;
 /* Start interrutp timer */
@@ -78,34 +78,24 @@ void loop() {
 
   updateScreen(i, rxmsg.id, gyroZ());
 
-  while(Can0.read(rxmsg)) { 
+  while(Can0.read(rxmsg)) {
     i++;
-    String CANStr(""); 
+    String CANStr("");
     for (int i=0; i < 8; i++) {
       msg.buf[i] = rxmsg.buf[i];
       CANStr += String(rxmsg.buf[i],HEX);
-      CANStr += (" "); 
+      CANStr += (" ");
     }
-    
+
     if (rxmsg.id == 0x50) {
       recieve = true;
     } else if (rxmsg.id == 0x100){
       recieve = false;
     }
-    
-    /*
-    msg.id = rxmsg.id;
-    Can0.write(msg);
-    */
-    
-    Serial.print("id: ");
-    Serial.println(rxmsg.id);
-    Serial.print("msg: ");
-    Serial.println(CANStr);
-    
+
     updateScreen(i, rxmsg.id, gyroZ());
   }
-    
+
 }
 
 // Functions
@@ -137,12 +127,12 @@ void tx_gyro(void) {
 void updateScreen(int msgCount, int msgAddr, double gyro) {
 
   display.clearDisplay();
- 
+
   display.setTextSize(0);
   display.setTextColor(WHITE);
-    
+
   display.setCursor(0,0);
-  
+
   display.drawRoundRect(0,0, 128,64,6,WHITE);
   display.setCursor(13,5);
   display.println("MAS234 - gruppe 5");
@@ -166,15 +156,15 @@ void updateScreen(int msgCount, int msgAddr, double gyro) {
 
 double gyroZ() {
   Wire.beginTransmission(MPU);
-  Wire.write(0x3B);  
+  Wire.write(0x3B);
   Wire.endTransmission(false);
-  Wire.requestFrom(MPU,12,true); 
+  Wire.requestFrom(MPU,12,true);
 
-  AcX=Wire.read()<<8|Wire.read();    
-  AcY=Wire.read()<<8|Wire.read();  
-  AcZ=Wire.read()<<8|Wire.read();  
-  GyX=Wire.read()<<8|Wire.read();  
-  GyY=Wire.read()<<8|Wire.read();  
+  AcX=Wire.read()<<8|Wire.read();
+  AcY=Wire.read()<<8|Wire.read();
+  AcZ=Wire.read()<<8|Wire.read();
+  GyX=Wire.read()<<8|Wire.read();
+  GyY=Wire.read()<<8|Wire.read();
   GyZ=Wire.read()<<8|Wire.read();
   delay(333);
   return (AcZ/15500.0) * 9.81;
